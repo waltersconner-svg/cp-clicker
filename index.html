@@ -81,40 +81,132 @@
         }
 
         .click-button {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
+            width: 0;
+            height: 0;
             border: none;
-            font-size: 0;
-            cursor: pointer;
+            padding: 0;
             background: transparent;
-            box-shadow: none;
+            cursor: pointer;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             animation: fadeInUp 0.8s ease-out 0.4s both;
             position: relative;
-            overflow: visible;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        /* Pizza slice using SVG */
-        .pizza-slice {
-            width: 220px;
-            height: 220px;
             filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.3));
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .click-button:hover .pizza-slice {
+        .click-button:hover {
             transform: scale(1.1);
             filter: drop-shadow(0 15px 50px rgba(255, 107, 107, 0.6));
         }
 
-        .click-button:active .pizza-slice {
+        .click-button:active {
             transform: scale(0.95);
             filter: drop-shadow(0 5px 20px rgba(255, 107, 107, 0.4));
+        }
+
+        /* Pizza slice triangle */
+        .pizza-slice {
+            width: 0;
+            height: 0;
+            border-left: 110px solid transparent;
+            border-right: 110px solid transparent;
+            border-bottom: 200px solid #FFD700;
+            position: relative;
+            filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Crust */
+        .pizza-slice::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 110px solid transparent;
+            border-right: 110px solid transparent;
+            border-bottom: 200px solid #D4A574;
+            top: 4px;
+            left: -110px;
+            z-index: -1;
+        }
+
+        /* Pepperoni 1 */
+        .pepperoni {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #FF4444, #CC0000);
+            box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .pepperoni1 {
+            width: 35px;
+            height: 35px;
+            top: 50px;
+            left: -55px;
+        }
+
+        .pepperoni2 {
+            width: 30px;
+            height: 30px;
+            top: 90px;
+            left: 10px;
+        }
+
+        .pepperoni3 {
+            width: 32px;
+            height: 32px;
+            top: 130px;
+            left: -30px;
+        }
+
+        .pepperoni4 {
+            width: 28px;
+            height: 28px;
+            top: 150px;
+            left: 35px;
+        }
+
+        /* Cheese spots */
+        .cheese-spot {
+            position: absolute;
+            background: radial-gradient(circle at 40% 40%, #FFED4E, #FFD700);
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        .cheese-spot1 {
+            width: 20px;
+            height: 20px;
+            top: 70px;
+            left: -25px;
+        }
+
+        .cheese-spot2 {
+            width: 18px;
+            height: 18px;
+            top: 120px;
+            left: 25px;
+        }
+
+        .cheese-spot3 {
+            width: 16px;
+            height: 16px;
+            top: 160px;
+            left: -5px;
+        }
+
+        /* Cheese shine */
+        .pizza-slice::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, 0.4), transparent 70%);
+            top: 30px;
+            left: -30px;
+            border-radius: 50%;
+            z-index: 2;
         }
 
         .stats {
@@ -230,45 +322,15 @@
         <p class="subtitle">Click away, one slice at a time</p>
         
         <button class="click-button" id="clickBtn">
-            <svg class="pizza-slice" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <!-- Pizza crust (triangle) -->
-                <path d="M 100 10 L 190 190 L 10 190 Z" fill="#D4A574" stroke="#8B7355" stroke-width="2"/>
-                
-                <!-- Cheese fill -->
-                <path d="M 100 30 L 180 180 L 20 180 Z" fill="#FFD700" opacity="0.9"/>
-                
-                <!-- Cheese texture/gradient -->
-                <circle cx="60" cy="80" r="8" fill="#FFC700" opacity="0.6"/>
-                <circle cx="100" cy="60" r="6" fill="#FFC700" opacity="0.5"/>
-                <circle cx="130" cy="100" r="7" fill="#FFC700" opacity="0.6"/>
-                <circle cx="75" cy="130" r="6" fill="#FFC700" opacity="0.5"/>
-                <circle cx="120" cy="150" r="8" fill="#FFC700" opacity="0.6"/>
-                <circle cx="90" cy="160" r="5" fill="#FFC700" opacity="0.5"/>
-                
-                <!-- Pepperoni circles -->
-                <circle cx="75" cy="90" r="12" fill="#C41E3A"/>
-                <circle cx="75" cy="90" r="10" fill="#E63946"/>
-                <circle cx="75" cy="88" r="3" fill="#8B0000" opacity="0.7"/>
-                
-                <circle cx="115" cy="110" r="11" fill="#C41E3A"/>
-                <circle cx="115" cy="110" r="9" fill="#E63946"/>
-                <circle cx="115" cy="108" r="2.5" fill="#8B0000" opacity="0.7"/>
-                
-                <circle cx="95" cy="140" r="10" fill="#C41E3A"/>
-                <circle cx="95" cy="140" r="8" fill="#E63946"/>
-                <circle cx="95" cy="138" r="2" fill="#8B0000" opacity="0.7"/>
-                
-                <circle cx="130" cy="130" r="11" fill="#C41E3A"/>
-                <circle cx="130" cy="130" r="9" fill="#E63946"/>
-                <circle cx="130" cy="128" r="2.5" fill="#8B0000" opacity="0.7"/>
-                
-                <!-- Crust edge highlight -->
-                <path d="M 100 10 L 190 190" stroke="#A0826D" stroke-width="1.5" fill="none" opacity="0.6"/>
-                <path d="M 100 10 L 10 190" stroke="#A0826D" stroke-width="1.5" fill="none" opacity="0.6"/>
-                
-                <!-- Glossy shine -->
-                <ellipse cx="70" cy="70" rx="25" ry="35" fill="#FFFF00" opacity="0.15"/>
-            </svg>
+            <div class="pizza-slice">
+                <div class="pepperoni pepperoni1"></div>
+                <div class="pepperoni pepperoni2"></div>
+                <div class="pepperoni pepperoni3"></div>
+                <div class="pepperoni pepperoni4"></div>
+                <div class="cheese-spot cheese-spot1"></div>
+                <div class="cheese-spot cheese-spot2"></div>
+                <div class="cheese-spot cheese-spot3"></div>
+            </div>
         </button>
         
         <div class="stats">
