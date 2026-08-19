@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CP Clicker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: sunsetGradient 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        @keyframes sunsetGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Sunset overlay effect */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(255, 107, 107, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255, 165, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(255, 69, 0, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .click-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: none;
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e72 50%, #ffa052 100%);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .click-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .click-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(255, 107, 107, 0.6);
+        }
+
+        .click-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .click-button:active::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+            min-width: 300px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            color: white;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-label {
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .stat-value {
+            font-weight: 800;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #ffd89b 0%, #ff8c3a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .reset-button {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-button:hover {
+            background: rgba(255, 255, 255, 0.35);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .reset-button:active {
+            transform: translateY(0);
+        }
+
+        .click-animation {
+            position: fixed;
+            pointer-events: none;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(0, -100px);
+                opacity: 0;
+            }
+        }
+
+        .click-pop {
+            animation: floatUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🍕 CP CLICKER 🍕</h1>
+        <p class="subtitle">Click away, one slice at a time</p>
+        
+        <button class="click-button" id="clickBtn">+1</button>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-label">Total Clicks:</span>
+                <span class="stat-value" id="totalClicks">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Clicks/Second:</span>
+                <span class="stat-value" id="cps">0.00</span>
+            </div>
+            <button class="reset-button" onclick="resetClicks()">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let totalClicks = 0;
+        let lastClickTime = Date.now();
+        let clickHistory = [];
+
+        const clickBtn = document.getElementById('clickBtn');
+        const totalClicksEl = document.getElementById('totalClicks');
+        const cpsEl = document.getElementById('cps');
+
+        clickBtn.addEventListener('click', handleClick);
+
+        function handleClick(e) {
+            totalClicks++;
+            totalClicksEl.textContent = totalClicks;
+            
+            // Record click time for CPS calculation
+            const now = Date.now();
+            clickHistory.push(now);
+            
+            // Keep only clicks from the last 5 seconds
+            clickHistory = clickHistory.filter(time => now - time < 5000);
+            
+            // Update CPS
+            updateCPS();
+            
+            // Create floating +1 animation
+            createClickAnimation(e);
+            
+            // Haptic feedback if available
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        function createClickAnimation(e) {
+            const pop = document.createElement('div');
+            pop.className = 'click-animation click-pop';
+            pop.textContent = '+1';
+            pop.style.left = (e.clientX - 20) + 'px';
+            pop.style.top = (e.clientY - 30) + 'px';
+            document.body.appendChild(pop);
+            
+            setTimeout(() => pop.remove(), 1000);
+        }
+
+        function updateCPS() {
+            if (clickHistory.length === 0) {
+                cpsEl.textContent = '0.00';
+                return;
+            }
+            
+            const timeSpan = Date.now() - clickHistory[0];
+            const cps = (clickHistory.length / (timeSpan / 1000)).toFixed(2);
+            cpsEl.textContent = cps;
+        }
+
+        function resetClicks() {
+            totalClicks = 0;
+            clickHistory = [];
+            totalClicksEl.textContent = '0';
+            cpsEl.textContent = '0.00';
+        }
+
+        // Update CPS periodically
+        setInterval(updateCPS, 100);
+    </script>
+</body>
+</html>
